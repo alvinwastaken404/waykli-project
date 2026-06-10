@@ -1,0 +1,307 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #e2d7c7; /* Warna ungu/cream background luar gambar */
+    display: flex;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* --- SIDEBAR --- */
+/* --- SIDEBAR --- */
+.sidebar {
+    width: 260px;
+    background-color: #FFFDF9;
+    border: 2px solid #D1B89A;
+    border-radius: 25px; /* Menyesuaikan kebulatan sudut di gambar baru */
+    padding: 25px 20px;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    z-index: 100;
+}
+
+/* Ketika sidebar ditutup (Mini Sidebar) */
+.sidebar.closed {
+    width: 85px; /* Sedikit disesuaikan agar pas dengan gambar baru */
+    padding: 25px 10px;
+    align-items: center; /* Membuat semua elemen di dalamnya otomatis ke tengah */
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 40px;
+    color: #5D4037;
+    cursor: pointer;
+    width: 100%;
+}
+
+/* Memastikan ikon hamburger pas di tengah saat ditutup */
+.sidebar.closed .sidebar-header {
+    justify-content: center;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+/* Membesarkan sedikit ikon hamburger agar mirip dengan gambar */
+.sidebar-header .material-icons-outlined {
+    font-size: 28px;
+}
+
+.sidebar.closed .sidebar-header h2 {
+    display: none;
+}
+
+.menu-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Jarak antar menu sedikit diperlebar sesuai gambar */
+    width: 100%;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 15px;
+    border-radius: 15px;
+    color: #A19B93;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.2s;
+}
+
+/* Efek hover biasa */
+.menu-item:hover {
+    color: #5D4037;
+    background-color: #F5EFE6;
+}
+
+/* Mengubah style menu aktif menjadi kotak tumpul di sekeliling ikon (seperti gambar baru) */
+.menu-item.active {
+    color: #5D4037;
+    background-color: #F5EFE6;
+}
+
+.sidebar.closed .menu-item {
+    justify-content: center;
+    padding: 15px;
+    width: 55px;
+    height: 55px;
+}
+
+.sidebar.closed .menu-item span:not(.material-icons-outlined) {
+    display: none;
+}
+
+/* Garis pembatas horizontal */
+.divider {
+    height: 2px;
+    background-color: #5D4037;
+    margin: 20px 0;
+    border: none;
+    width: 100%;
+}
+
+/* Memastikan garis pembatas mengecil dan tetap di tengah saat ditutup */
+.sidebar.closed .divider {
+    width: 70%;
+    margin: 20px auto;
+}
+
+/* --- MAIN CONTENT AREA --- */
+.main-container {
+    flex: 1;
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* --- TOP BAR (SEARCH & FILTER) --- */
+.top-bar {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    width: 100%;
+}
+
+.search-container {
+    position: relative;
+    flex: 1;
+}
+
+.search-container input {
+    width: 100%;
+    padding: 12px 20px 12px 50px;
+    border-radius: 30px;
+    border: none;
+    background-color: #fffdf9;
+    font-size: 16px;
+    color: #5d4037;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.search-container input::placeholder {
+    color: #c2bbaf;
+}
+
+.search-container .search-icon {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #c2bbaf;
+}
+
+.filter-btn {
+    background-color: #fffdf9;
+    border: none;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #5d4037;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* --- CONTENT PANEL --- */
+.content-panel {
+    background-color: #fffdf9;
+    border-radius: 15px;
+    padding: 25px;
+    flex: 1;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.panel-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 24px;
+    color: #000000;
+    margin-bottom: 25px;
+}
+
+.panel-title .material-icons-outlined {
+    font-size: 32px;
+}
+
+/* --- GRID BUKU AUDIO --- */
+.audio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    border: 2px solid #d1b89a;
+    border-radius: 25px;
+    overflow: hidden;
+    background-color: #fffdf9;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.card-top {
+    background: linear-gradient(to bottom, #e8dec9, #fffdf9);
+    padding: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    position: relative;
+    height: 140px;
+}
+
+/* Ilustrasi Buku 3D Sederhana */
+.book-wrapper {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.book-orange {
+    width: 45px;
+    height: 65px;
+    background-color: #f08a5d;
+    border: 2px solid #5d4037;
+    border-radius: 4px;
+    transform: skewY(-5deg);
+    box-shadow: -3px 3px 0 #5d4037;
+}
+
+.book-blue {
+    width: 40px;
+    height: 55px;
+    background-color: #64b5f6;
+    border: 2px solid #5d4037;
+    border-radius: 4px;
+    transform: skewY(5deg);
+    box-shadow: 3px 3px 0 #5d4037;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 6px;
+    color: white;
+    text-align: center;
+    padding: 2px;
+}
+
+.audio-icon {
+    position: absolute;
+    right: 15px;
+    bottom: 10px;
+    color: #5d4037;
+}
+
+.card-bottom {
+    padding: 20px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 18px;
+    color: #000000;
+    background-color: #fffdf9;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Khusus untuk teks yang memiliki underline di gambar asli */
+.card-bottom.underlined {
+    text-decoration: underline;
+    color: #5d4037;
+}
+
+/* Responsif untuk Layar Handphone */
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+        padding: 10px;
+    }
+    .sidebar {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+    .sidebar.closed {
+        width: 100%;
+        height: 70px;
+        overflow: hidden;
+    }
+    .main-container {
+        margin-left: 0;
+    }
+}
