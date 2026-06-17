@@ -33,16 +33,11 @@ function hitAnim(el) {
   ripple(el);
 }
 
-/* ============================================================
-   SYNTHESIZER FUNCTIONS
-   Mensimulasikan harmonik inharmonic khas instrumen perunggu
-   ============================================================ */
-
 /**
  * playGong — Gong Ageng & Kempul
- * @param {number} freq   - frekuensi dasar (Hz)
- * @param {number} decay  - durasi dengung (detik)
- * @param {number} vol    - volume (0–1)
+ * @param {number} freq   
+ * @param {number} decay  
+ * @param {number} vol    
  */
 function playGong(freq, decay, vol) {
   const ac     = getCtx();
@@ -81,9 +76,9 @@ function playGong(freq, decay, vol) {
 }
 
 /**
- * playSaron — Saron Barung (bilah perunggu)
- * @param {number} freq - frekuensi nada (Hz)
- * @param {string} name - nama nada untuk info bar
+ * playSaron — Saron Barung 
+ * @param {number} freq 
+ * @param {string} name 
  */
 function playSaron(freq, name) {
   const ac     = getCtx();
@@ -111,9 +106,9 @@ function playSaron(freq, name) {
 }
 
 /**
- * playBonang — Bonang Barung (pencon perunggu, oktaf atas)
- * @param {number} freq - frekuensi nada (Hz)
- * @param {string} name - nama nada untuk info bar
+ * playBonang — Bonang Barung 
+ * @param {number} freq 
+ * @param {string} name 
  */
 function playBonang(freq, name) {
   const ac     = getCtx();
@@ -141,9 +136,9 @@ function playBonang(freq, name) {
 }
 
 /**
- * playKenong — Kenong (penanda frase, dengung panjang)
- * @param {number} freq - frekuensi nada (Hz)
- * @param {string} name - nama nada untuk info bar
+ * playKenong — Kenong 
+ * @param {number} freq 
+ * @param {string} name 
  */
 function playKenong(freq, name) {
   const ac     = getCtx();
@@ -171,8 +166,8 @@ function playKenong(freq, name) {
 }
 
 /**
- * playKendang — Kendang (drum membran kulit)
- * @param {'low'|'high'} side - 'low' = Dhung (kiri), 'high' = Tak (kanan)
+ * playKendang — Kendang 
+ * @param {'low'|'high'} side 
  */
 function playKendang(side) {
   const ac    = getCtx();
@@ -213,9 +208,6 @@ function playKendang(side) {
   setInfo('Kendang — ' + (isLow ? 'Dhung (bas, sisi kiri)' : 'Tak (treble, sisi kanan)'));
 }
 
-/* ============================================================
-   BUILD UI — membangun instrumen secara dinamis
-   ============================================================ */
 
 /* ── DATA INSTRUMEN ── */
 
