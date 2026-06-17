@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="id">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Dashboard — Waykli</title>
+        <link
+            href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="dashboard.css" />
+    </head>
+    <body>
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header" onclick="toggleSidebar()">
+                <span class="material-icons-outlined">menu</span>
+                <h2>Waykli</h2>
+            </div>
+
+            <ul class="menu-list">
+                <li>
+                    <a href="#" class="menu-item active">
+                        <span class="material-icons-outlined">home</span>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item">
+                        <span class="material-icons-outlined">menu_book</span>
+                        <span>Perpustakaan</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item">
+                        <span class="material-icons-outlined">edit_note</span>
+                        <span>Ujian</span>
+                    </a>
+                </li>
+
+                <hr class="divider" />
+
+                <li>
+                    <a href="#" class="menu-item">
+                        <span class="material-icons-outlined"
+                            >person_outline</span
+                        >
+                        <span>Profil desa</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item">
+                        <span class="material-icons-outlined">campaign</span>
+                        <span>Pemasaran</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="main-container">
+            <div class="top-bar">
+                <div class="search-container">
+                    <span class="material-icons-outlined search-icon"
+                        >search</span
+                    >
+                    <input type="text" placeholder="Mencari..." />
+                </div>
+                <button
+                    class="theme-btn"
+                    id="themeToggle"
+                    aria-label="Toggle dark mode"
+                >
+                    <span class="material-icons-outlined">dark_mode</span>
+                </button>
+                <button class="filter-btn">
+                    <span class="material-icons-outlined"
+                        >notifications_none</span
+                    >
+                </button>
+            </div>
+
+            <main class="content-panel">
+                <section class="hero">
+                    <div class="hero-left">
+                        <h1>Hi, Muhammad Sidiq</h1>
+                        <p class="sub">
+                            Selamat datang di aplikasi kami tempatnya belajar
+                        </p>
+                    </div>
+                    <div class="hero-right">
+                        <div class="book-illustration">🎭</div>
+                    </div>
+                </section>
+
+                <div class="panel-title">
+                    <span class="material-icons-outlined">dashboard</span>
+                    <strong>Pilih pilihanmu</strong>
+                </div>
+
+                <div class="choices-grid">
+                    <div class="card">
+                        <div class="card-top">
+                            <span class="material-icons-outlined choice-icon"
+                                >books</span
+                            >
+                        </div>
+                        <div class="card-bottom">
+                            <h3>Buku Belajar</h3>
+                            <p>Selamat belajar</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-top">
+                            <span class="material-icons-outlined choice-icon"
+                                >play_circle</span
+                            >
+                        </div>
+                        <div class="card-bottom">
+                            <h3>Vidio</h3>
+                            <p>Vidio pembelajaran</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-top">
+                            <span class="material-icons-outlined choice-icon"
+                                >music_note</span
+                            >
+                        </div>
+                        <div class="card-bottom">
+                            <h3>Lagu</h3>
+                            <p>Lagu pembelajaran</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-top">
+                            <span class="material-icons-outlined choice-icon"
+                                >sports_esports</span
+                            >
+                        </div>
+                        <div class="card-bottom">
+                            <h3>Game</h3>
+                            <p>Game yang asik</p>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <script>
+            function toggleSidebar() {
+                const sidebar = document.getElementById("sidebar");
+                sidebar.classList.toggle("closed");
+            }
+
+            const themeToggle = document.getElementById("themeToggle");
+            if (themeToggle) {
+                themeToggle.addEventListener("click", () => {
+                    document.body.classList.toggle("dark-mode");
+                    const icon = themeToggle.querySelector(
+                        ".material-icons-outlined",
+                    );
+                    icon.textContent = document.body.classList.contains(
+                        "dark-mode",
+                    )
+                        ? "light_mode"
+                        : "dark_mode";
+                });
+            }
+        </script>
+    </body>
+</html>
