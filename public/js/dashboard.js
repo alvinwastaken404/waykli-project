@@ -15,7 +15,14 @@
   const placeholderTitle = document.getElementById('placeholder-title');
   const menuCards      = document.querySelectorAll('.menu-card');
   const searchInput    = document.querySelector('.search-input');
+  const videoModal     = document.getElementById('videoModal');
+  const videoFrame     = document.getElementById('videoFrame');
+  const videoCloseBtn  = document.querySelector('.video-modal-close');
+  const VIDEO_URL      = 'https://www.youtube-nocookie.com/embed/CpUKc28uPEk?rel=0&modestbranding=1&playsinline=1';
 
+  if (videoFrame) {
+    videoFrame.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen');
+  }
 
   let isSidebarCollapsed = false;
   let isMobile = window.innerWidth <= 640;
@@ -100,10 +107,107 @@
 
   const CARD_PAGES = {
     'Buku Belajar': 'perpustakaan',
-    'Video'        : null,
+    'Video'        : 'video',
     'Lagu'         : null,
     'Game'         : null,
   };
+
+  function openVideoModal () {
+    if (!videoModal || !videoFrame) return;
+
+    const content = videoModal.querySelector('.video-modal-content');
+    let fallback = videoModal.querySelector('.video-fallback');
+
+    if (!fallback && content) {
+      fallback = document.createElement('div');
+      fallback.className = 'video-fallback';
+      fallback.innerHTML = `
+        <div class="video-fallback-inner">
+          <p>Video tidak dapat diputar langsung di halaman ini.</p>
+          <div class="video-fallback-actions">
+            <button class="open-youtube">Buka di YouTube</button>
+            <button class="copy-link">Salin tautan</button>
+          </div>
+        </div>
+      `;
+      content.appendChild(fallback);
+
+      const openBtn = fallback.querySelector('.open-youtube');
+      const copyBtn = fallback.querySelector('.copy-link');
+      if (openBtn) openBtn.addEventListener('click', () => {
+        window.open('https://www.youtube.com/watch?v=CpUKc28uPEk', '_blank', 'noopener');
+      });
+      if (copyBtn) copyBtn.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText('https://www.youtube.com/watch?v=CpUKc28uPEk');
+          showToast('Tautan disalin');
+        } catch (e) {
+          showToast('Gagal menyalin tautan');
+        }
+      });
+    }
+
+    // reset fallback
+    if (fallback) fallback.classList.remove('visible');
+    videoFrame.style.display = '';
+
+    // Show modal and start loading iframe
+    videoFrame.src = VIDEO_URL;
+    videoModal.classList.remove('hidden');
+    videoModal.classList.add('visible');
+    videoModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+
+    // start detection timer: if iframe doesn't load within 2.5s, show fallback
+    if (videoFrame._embedTimer) clearTimeout(videoFrame._embedTimer);
+    videoFrame._embedTimer = setTimeout(() => {
+      videoFrame.style.display = 'none';
+      if (fallback) fallback.classList.add('visible');
+    }, 2500);
+
+    // on successful load, cancel timer and ensure iframe visible
+    videoFrame.onload = function () {
+      if (videoFrame._embedTimer) { clearTimeout(videoFrame._embedTimer); videoFrame._embedTimer = null; }
+      if (fallback) fallback.classList.remove('visible');
+      videoFrame.style.display = '';
+    };
+  }
+
+  function closeVideoModal () {
+    if (!videoModal || !videoFrame) return;
+    if (videoFrame._embedTimer) { clearTimeout(videoFrame._embedTimer); videoFrame._embedTimer = null; }
+    videoModal.classList.remove('visible');
+    videoModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    setTimeout(() => {
+      if (!videoModal.classList.contains('visible')) {
+        videoModal.classList.add('hidden');
+        videoFrame.src = '';
+        const fallback = videoModal.querySelector('.video-fallback');
+        if (fallback) {
+          fallback.classList.remove('visible');
+        }
+      }
+    }, 250);
+  }
+
+  if (videoCloseBtn) {
+    videoCloseBtn.addEventListener('click', closeVideoModal);
+  }
+
+  if (videoModal) {
+    videoModal.addEventListener('click', (event) => {
+      if (event.target === videoModal || event.target.classList.contains('video-modal-backdrop')) {
+        closeVideoModal();
+      }
+    });
+  }
+
+  window.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && videoModal?.classList.contains('visible')) {
+      closeVideoModal();
+    }
+  });
 
   menuCards.forEach(card => {
     const label = card.dataset.label;
@@ -114,7 +218,9 @@
       setTimeout(() => { card.style.transform = ''; }, 140);
 
       const target = CARD_PAGES[label];
-      if (target) {
+      if (target === 'video') {
+        setTimeout(openVideoModal, 180);
+      } else if (target) {
         setTimeout(() => navigateTo(target), 180);
       } else {
         showToast(`Membuka ${label}…`);
