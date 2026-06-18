@@ -258,6 +258,16 @@
 
   </main><!-- /main-content -->
 
+  <div class="video-modal hidden" id="videoModal" aria-hidden="true">
+    <div class="video-modal-backdrop"></div>
+    <div class="video-modal-card" role="dialog" aria-modal="true" aria-label="Video pembelajaran">
+      <button class="video-modal-close" aria-label="Tutup video">×</button>
+      <div class="video-modal-content">
+        <iframe id="videoFrame" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+
   <script src="../js/dashboard.js"></script>
 </body>
 </html>
