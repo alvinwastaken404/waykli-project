@@ -10,6 +10,7 @@ body {
     color: #3a2a1a;
     min-height: 100vh;
     margin: 0;
+    padding: 24px;
     display: flex;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -269,7 +270,9 @@ body {
     padding: 18px 20px;
     margin-bottom: 16px;
     cursor: pointer;
-    transition: box-shadow 0.2s ease, transform 0.15s ease;
+    transition:
+        box-shadow 0.2s ease,
+        transform 0.15s ease;
 }
 
 .ujian-item:hover {
@@ -346,7 +349,10 @@ body {
     padding: 22px 14px;
     text-align: center;
     cursor: pointer;
-    transition: box-shadow 0.2s ease, transform 0.15s ease, border-color 0.2s ease;
+    transition:
+        box-shadow 0.2s ease,
+        transform 0.15s ease,
+        border-color 0.2s ease;
 }
 
 .kelas-card:hover {
@@ -484,7 +490,9 @@ body {
     padding: 14px 16px;
     cursor: pointer;
     font-size: 0.95rem;
-    transition: background 0.2s ease, border-color 0.2s ease;
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
 }
 
 .pilihan-item:hover {
@@ -530,7 +538,9 @@ body {
     font-weight: 800;
     font-size: 0.95rem;
     cursor: pointer;
-    transition: opacity 0.2s ease, transform 0.15s ease;
+    transition:
+        opacity 0.2s ease,
+        transform 0.15s ease;
 }
 
 .btn:hover {

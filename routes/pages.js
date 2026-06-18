@@ -24,7 +24,7 @@ router.get("/profile", (req, res) =>
     ),
 );
 router.get("/ujian", (req, res) =>
-    res.sendFile(path.join(__dirname, "..", "ujian", "index.html")),
+    res.sendFile(path.join(__dirname, "..", "public", "member", "ujian.html")),
 );
 
 module.exports = router;

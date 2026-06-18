@@ -1627,7 +1627,7 @@ const jenjangInfo = {
 };
 
 const WAKTU_UJIAN = 5 * 60; // 5 menit dalam detik
-const gongAudio = new Audio("suara_gong.wav");
+const gongAudio = new Audio("../resources/suara_gong.wav");
 
 // ====== STATE ======
 let currentJenjang = null;
@@ -1800,11 +1800,11 @@ function renderSoal() {
 
     const soalImage = document.getElementById("soal-image");
     if (currentJenjang === "SD" && currentKelas === 1 && soal.no === 2) {
-        soalImage.src = "aksarajawaH.jpeg";
+        soalImage.src = "../resources/aksarajawaH.jpeg";
         soalImage.alt = "Aksara Jawa H";
         soalImage.classList.remove("hidden");
     } else if (currentJenjang === "SD" && currentKelas === 4 && soal.no === 6) {
-        soalImage.src = "kendang.jpg";
+        soalImage.src = "../resources/kendang.jpg";
         soalImage.alt = "Gambar kendang";
         soalImage.classList.remove("hidden");
     } else {
