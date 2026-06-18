@@ -101,7 +101,7 @@
 
     const CARD_PAGES = {
         "Buku Belajar": "perpustakaan",
-        Video: "https://www.youtube.com/watch?v=VIDEO_ID",
+        Video: "https://youtube.com/@sandhikagalihwpu?si=4-Xk1ajBf-gT-zdK",
         Lagu: null,
         // direct HTML page for game is in public/member/game.html
         Game: "/member/game.html",
