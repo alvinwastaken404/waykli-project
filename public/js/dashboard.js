@@ -1,19 +1,18 @@
 (function () {
     "use strict";
 
-  const sidebar        = document.getElementById('sidebar');
-  const hamburgerBtn   = document.getElementById('hamburgerBtn');
-  const sidebarOverlay = document.getElementById('sidebarOverlay');
-  const themeToggle    = document.getElementById('themeToggle');
-  const moonIcon       = document.getElementById('moonIcon');
-  const sunIcon        = document.getElementById('sunIcon');
-  const navItems       = document.querySelectorAll('.nav-item');
-  const pageHome       = document.getElementById('page-home');
-  const pageOther      = document.getElementById('page-other');
-  const placeholderTitle = document.getElementById('placeholder-title');
-  const menuCards      = document.querySelectorAll('.menu-card');
-  const searchInput    = document.querySelector('.search-input');
-
+    const sidebar = document.getElementById("sidebar");
+    const hamburgerBtn = document.getElementById("hamburgerBtn");
+    const sidebarOverlay = document.getElementById("sidebarOverlay");
+    const themeToggle = document.getElementById("themeToggle");
+    const moonIcon = document.getElementById("moonIcon");
+    const sunIcon = document.getElementById("sunIcon");
+    const navItems = document.querySelectorAll(".nav-item");
+    const pageHome = document.getElementById("page-home");
+    const pageOther = document.getElementById("page-other");
+    const placeholderTitle = document.getElementById("placeholder-title");
+    const menuCards = document.querySelectorAll(".menu-card");
+    const searchInput = document.querySelector(".search-input");
 
     let isSidebarCollapsed = false;
     let isMobile = window.innerWidth <= 640;
@@ -100,12 +99,13 @@
         });
     });
 
-  const CARD_PAGES = {
-    'Buku Belajar': 'perpustakaan',
-    'Video'        : null,
-    'Lagu'         : null,
-    'Game'         : null,
-  };
+    const CARD_PAGES = {
+        "Buku Belajar": "perpustakaan",
+        Video: null,
+        Lagu: null,
+        // direct HTML page for game is in public/member/game.html
+        Game: "/member/game.html",
+    };
 
     menuCards.forEach((card) => {
         const label = card.dataset.label;
@@ -117,13 +117,23 @@
                 card.style.transform = "";
             }, 140);
 
-      const target = CARD_PAGES[label];
-      if (target) {
-        setTimeout(() => navigateTo(target), 180);
-      } else {
-        showToast(`Membuka ${label}…`);
-      }
-    });
+            const target = CARD_PAGES[label];
+            if (target) {
+                // if target looks like an HTML path, navigate directly
+                if (
+                    typeof target === "string" &&
+                    (target.endsWith(".html") || target.startsWith("/"))
+                ) {
+                    setTimeout(() => {
+                        window.location.href = target;
+                    }, 180);
+                } else {
+                    setTimeout(() => navigateTo(target), 180);
+                }
+            } else {
+                showToast(`Membuka ${label}…`);
+            }
+        });
 
         // Ripple effect on click
         card.addEventListener("pointerdown", (e) => {
