@@ -13,6 +13,9 @@
   const placeholderTitle = document.getElementById('placeholder-title');
   const menuCards      = document.querySelectorAll('.menu-card');
   const searchInput    = document.querySelector('.search-input');
+    const videoModal      = document.getElementById('videoModal');
+    const videoFrame      = document.getElementById('videoFrame');
+    const videoModalClose = document.querySelector('.video-modal-close');
 
 
     let isSidebarCollapsed = false;
@@ -118,12 +121,62 @@
             }, 140);
 
       const target = CARD_PAGES[label];
-      if (target) {
-        setTimeout(() => navigateTo(target), 180);
-      } else {
-        showToast(`Membuka ${label}…`);
-      }
+            if (target) {
+                setTimeout(() => navigateTo(target), 180);
+            } else {
+                // Open specific video in modal instead of navigating to YouTube
+                if (label === 'Video') {
+                    setTimeout(() => openVideoModal('https://www.youtube.com/watch?v=CpUKc28uPEk&t=2s&pp=ygUXcGVuZ2VuYWxhbiB3YXlhbmcga3VsaXQ%3D'), 180);
+                } else {
+                    showToast(`Membuka ${label}…`);
+                }
+            }
     });
+
+    // Video modal helpers
+    function getYouTubeEmbedUrl(url) {
+        try {
+            const u = new URL(url);
+            let id = u.searchParams.get('v') || '';
+            if (!id) {
+                const parts = u.pathname.split('/').filter(Boolean);
+                id = parts[parts.length - 1] || '';
+            }
+            let start = 0;
+            const t = u.searchParams.get('t') || u.searchParams.get('start');
+            if (t) {
+                if (/\ds$/.test(t)) start = parseInt(t.replace(/s$/, ''), 10) || 0;
+                else start = parseInt(t, 10) || 0;
+            }
+            return `https://www.youtube.com/embed/${id}?autoplay=1&start=${start}&rel=0`;
+        } catch (e) {
+            return url;
+        }
+    }
+
+    function openVideoModal(url) {
+        if (!videoModal || !videoFrame) return;
+        videoFrame.src = getYouTubeEmbedUrl(url);
+        videoModal.classList.remove('hidden');
+        videoModal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeVideoModal() {
+        if (!videoModal || !videoFrame) return;
+        videoFrame.src = '';
+        videoModal.classList.add('hidden');
+        videoModal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    }
+
+    if (videoModalClose) videoModalClose.addEventListener('click', closeVideoModal);
+    const videoBackdrop = document.querySelector('.video-modal-backdrop');
+    if (videoBackdrop) videoBackdrop.addEventListener('click', closeVideoModal);
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeVideoModal();
+    });
+
 
         // Ripple effect on click
         card.addEventListener("pointerdown", (e) => {
