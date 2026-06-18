@@ -100,11 +100,13 @@
     });
 
     const CARD_PAGES = {
-        "Buku Belajar": "perpustakaan",
-        Video: null,
-        Lagu: null,
-        // direct HTML page for game is in public/member/game.html
-        Game: "/member/game.html",
+           "Buku Belajar": "perpustakaan",
+           // example: open external YouTube link in new tab
+           'Video'        : 'https://www.youtube.com/watch?v=VIDEO_ID',
+           'Video'        : null,
+           'Lagu'         : null,
+           // direct HTML page for game is in public/member/game.html
+           'Game'         : '/member/game.html',
     };
 
     menuCards.forEach((card) => {
@@ -118,21 +120,28 @@
             }, 140);
 
             const target = CARD_PAGES[label];
-            if (target) {
-                // if target looks like an HTML path, navigate directly
-                if (
-                    typeof target === "string" &&
-                    (target.endsWith(".html") || target.startsWith("/"))
-                ) {
-                    setTimeout(() => {
-                        window.location.href = target;
-                    }, 180);
+                if (target) {
+                    // string targets can be: external http(s) links, absolute paths (/...),
+                    // or internal page keys used by navigateTo().
+                    if (typeof target === 'string') {
+                        const lowered = target.toLowerCase();
+                        if (lowered.startsWith('http://') || lowered.startsWith('https://') || lowered.startsWith('//')) {
+                            // open external links in a new tab
+                            setTimeout(() => { window.open(target, '_blank', 'noopener'); }, 180);
+                        } else if (target.endsWith('.html') || target.startsWith('/')) {
+                            // navigate to local HTML file or absolute path
+                            setTimeout(() => { window.location.href = target; }, 180);
+                        } else {
+                            // treat as internal app page key
+                            setTimeout(() => navigateTo(target), 180);
+                        }
+                    } else {
+                        // non-string mapping (unlikely) — fall back to showing toast
+                        showToast(`Membuka ${label}…`);
+                    }
                 } else {
-                    setTimeout(() => navigateTo(target), 180);
+                    showToast(`Membuka ${label}…`);
                 }
-            } else {
-                showToast(`Membuka ${label}…`);
-            }
         });
 
         // Ripple effect on click
