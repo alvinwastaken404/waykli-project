@@ -1,19 +1,18 @@
 (function () {
     "use strict";
 
-  const sidebar        = document.getElementById('sidebar');
-  const hamburgerBtn   = document.getElementById('hamburgerBtn');
-  const sidebarOverlay = document.getElementById('sidebarOverlay');
-  const themeToggle    = document.getElementById('themeToggle');
-  const moonIcon       = document.getElementById('moonIcon');
-  const sunIcon        = document.getElementById('sunIcon');
-  const navItems       = document.querySelectorAll('.nav-item');
-  const pageHome       = document.getElementById('page-home');
-  const pageOther      = document.getElementById('page-other');
-  const placeholderTitle = document.getElementById('placeholder-title');
-  const menuCards      = document.querySelectorAll('.menu-card');
-  const searchInput    = document.querySelector('.search-input');
-
+    const sidebar = document.getElementById("sidebar");
+    const hamburgerBtn = document.getElementById("hamburgerBtn");
+    const sidebarOverlay = document.getElementById("sidebarOverlay");
+    const themeToggle = document.getElementById("themeToggle");
+    const moonIcon = document.getElementById("moonIcon");
+    const sunIcon = document.getElementById("sunIcon");
+    const navItems = document.querySelectorAll(".nav-item");
+    const pageHome = document.getElementById("page-home");
+    const pageOther = document.getElementById("page-other");
+    const placeholderTitle = document.getElementById("placeholder-title");
+    const menuCards = document.querySelectorAll(".menu-card");
+    const searchInput = document.querySelector(".search-input");
 
     let isSidebarCollapsed = false;
     let isMobile = window.innerWidth <= 640;
@@ -104,8 +103,7 @@
         "Buku Belajar": "perpustakaan",
         Video: "https://youtube.com/@sandhikagalihwpu?si=4-Xk1ajBf-gT-zdK",
         Lagu: null,
-        // direct HTML page for game is in public/member/game.html
-        Game: "/member/game.html",
+        Game: "/game",
     };
 
     menuCards.forEach((card) => {
@@ -118,13 +116,21 @@
                 card.style.transform = "";
             }, 140);
 
-      const target = CARD_PAGES[label];
-      if (target) {
-        setTimeout(() => navigateTo(target), 180);
-      } else {
-        showToast(`Membuka ${label}…`);
-      }
-    });
+            const target = CARD_PAGES[label];
+            if (target) {
+                setTimeout(() => {
+                    if (/^https?:\/\//i.test(target)) {
+                        window.open(target, "_blank");
+                    } else if (/^\//.test(target)) {
+                        window.location.href = target;
+                    } else {
+                        navigateTo(target);
+                    }
+                }, 180);
+            } else {
+                showToast(`Membuka ${label}…`);
+            }
+        });
 
         // Ripple effect on click
         card.addEventListener("pointerdown", (e) => {
