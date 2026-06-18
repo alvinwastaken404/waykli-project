@@ -77,14 +77,6 @@
         const submitBtn = document.getElementById('submitBtn');
         const toggle = document.getElementById('togglePass');
 
-        function isEmail(v) {
-          return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-        }
-
-        function isPhone(v) {
-          return /^\+?\d{8,15}$/.test(v.replace(/[\s-]/g, ''));
-        }
-
         function clearErrors() {
           identityError.textContent = '';
           passwordError.textContent = '';
@@ -104,23 +96,20 @@
           }
         });
 
-        form.addEventListener('submit', function (e) {
+        form.addEventListener('submit', async function (e) {
           e.preventDefault();
           clearErrors();
-          let ok = true;
+          
           const idv = identity.value.trim();
           const pwd = password.value;
 
+          // Client-side validation
+          let ok = true;
           if (!idv) {
             identityError.textContent = 'Email atau nomor telepon wajib diisi.';
             document.getElementById('identityWrap').classList.add('error');
             ok = false;
-          } else if (!isEmail(idv) && !isPhone(idv)) {
-            identityError.textContent = 'Masukkan email yang valid atau nomor telepon 8-15 digit.';
-            document.getElementById('identityWrap').classList.add('error');
-            ok = false;
           }
-
           if (!pwd) {
             passwordError.textContent = 'Password wajib diisi.';
             document.getElementById('passwordWrap').classList.add('error');

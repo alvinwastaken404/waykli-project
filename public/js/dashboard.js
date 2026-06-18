@@ -177,7 +177,7 @@
     });
 
     document.querySelector(".notif-btn").addEventListener("click", () => {
-        showToast("📬 Kamu memiliki 3 notifikasi baru");
+        showToast("");
     });
 
     document.querySelector(".avatar-btn").addEventListener("click", () => {

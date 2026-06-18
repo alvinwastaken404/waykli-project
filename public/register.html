@@ -68,11 +68,6 @@
                 <button type="submit" class="btn primary" id="submitBtn">DAFTAR</button>
               </div>
 
-              <div class="note">
-                <strong>Demo validasi:</strong>
-                <div>Gunakan email valid atau nomor telepon 8-15 digit dan password minimal 6 karakter.</div>
-              </div>
-
               <div id="status" class="status" aria-live="polite"></div>
             </form>
           </div>
@@ -92,14 +87,6 @@
         const status = document.getElementById('status');
         const submitBtn = document.getElementById('submitBtn');
         const toggle = document.getElementById('togglePass');
-
-        function isEmail(v) {
-          return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-        }
-
-        function isPhone(v) {
-          return /^\+?\d{8,15}$/.test(v.replace(/[\s-]/g, ''));
-        }
 
         function clearErrors() {
           nameError.textContent = '';
@@ -122,7 +109,7 @@
           }
         });
 
-        form.addEventListener('submit', function (e) {
+        form.addEventListener('submit', async function (e) {
           e.preventDefault();
           clearErrors();
           let ok = true;
@@ -140,17 +127,8 @@
             identityError.textContent = 'Email atau nomor telepon wajib diisi.';
             document.getElementById('identityWrap').classList.add('error');
             ok = false;
-          } else if (!isEmail(idv) && !isPhone(idv)) {
-            identityError.textContent = 'Masukkan email yang valid atau nomor telepon 8-15 digit.';
-            document.getElementById('identityWrap').classList.add('error');
-            ok = false;
           }
-
-          if (!pwd) {
-            passwordError.textContent = 'Password wajib diisi.';
-            document.getElementById('passwordWrap').classList.add('error');
-            ok = false;
-          } else if (pwd.length < 6) {
+          if (!pwd || pwd.length < 6) {
             passwordError.textContent = 'Password minimal 6 karakter.';
             document.getElementById('passwordWrap').classList.add('error');
             ok = false;
