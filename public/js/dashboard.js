@@ -1,18 +1,19 @@
 (function () {
     "use strict";
 
-    const sidebar = document.getElementById("sidebar");
-    const hamburgerBtn = document.getElementById("hamburgerBtn");
-    const sidebarOverlay = document.getElementById("sidebarOverlay");
-    const themeToggle = document.getElementById("themeToggle");
-    const moonIcon = document.getElementById("moonIcon");
-    const sunIcon = document.getElementById("sunIcon");
-    const navItems = document.querySelectorAll(".nav-item");
-    const pageHome = document.getElementById("page-home");
-    const pageOther = document.getElementById("page-other");
-    const placeholderTitle = document.getElementById("placeholder-title");
-    const menuCards = document.querySelectorAll(".menu-card");
-    const searchInput = document.querySelector(".search-input");
+  const sidebar        = document.getElementById('sidebar');
+  const hamburgerBtn   = document.getElementById('hamburgerBtn');
+  const sidebarOverlay = document.getElementById('sidebarOverlay');
+  const themeToggle    = document.getElementById('themeToggle');
+  const moonIcon       = document.getElementById('moonIcon');
+  const sunIcon        = document.getElementById('sunIcon');
+  const navItems       = document.querySelectorAll('.nav-item');
+  const pageHome       = document.getElementById('page-home');
+  const pageOther      = document.getElementById('page-other');
+  const placeholderTitle = document.getElementById('placeholder-title');
+  const menuCards      = document.querySelectorAll('.menu-card');
+  const searchInput    = document.querySelector('.search-input');
+
 
     let isSidebarCollapsed = false;
     let isMobile = window.innerWidth <= 640;
@@ -117,41 +118,13 @@
                 card.style.transform = "";
             }, 140);
 
-            const target = CARD_PAGES[label];
-            if (target) {
-                // string targets can be: external http(s) links, absolute paths (/...),
-                // or internal page keys used by navigateTo().
-                if (typeof target === "string") {
-                    const lowered = target.toLowerCase();
-                    if (
-                        lowered.startsWith("http://") ||
-                        lowered.startsWith("https://") ||
-                        lowered.startsWith("//")
-                    ) {
-                        // open external links in a new tab
-                        setTimeout(() => {
-                            window.open(target, "_blank", "noopener");
-                        }, 180);
-                    } else if (
-                        target.endsWith(".html") ||
-                        target.startsWith("/")
-                    ) {
-                        // navigate to local HTML file or absolute path
-                        setTimeout(() => {
-                            window.location.href = target;
-                        }, 180);
-                    } else {
-                        // treat as internal app page key
-                        setTimeout(() => navigateTo(target), 180);
-                    }
-                } else {
-                    // non-string mapping (unlikely) — fall back to showing toast
-                    showToast(`Membuka ${label}…`);
-                }
-            } else {
-                showToast(`Membuka ${label}…`);
-            }
-        });
+      const target = CARD_PAGES[label];
+      if (target) {
+        setTimeout(() => navigateTo(target), 180);
+      } else {
+        showToast(`Membuka ${label}…`);
+      }
+    });
 
         // Ripple effect on click
         card.addEventListener("pointerdown", (e) => {
