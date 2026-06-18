@@ -1,158 +1,228 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Waykli - Tes Ujian</title>
+        <link rel="stylesheet" href="style.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        />
+    </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Waykli - Tes Ujian</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-    <div class="app">
-        <!-- SIDEBAR -->
-        <aside class="sidebar">
-            <div class="brand">
-                <span class="hamburger">&#9776;</span>
-                <span class="brand-name">Waykli</span>
+    <body>
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header" onclick="toggleSidebar()">
+                <i class="fa-solid fa-bars"></i>
+                <h2>Waykli</h2>
             </div>
-            <nav class="menu">
-                <a href="#" class="menu-item">
-                    <span class="icon">&#8962;</span> Home
-                </a>
-                <a href="#" class="menu-item">
-                    <span class="icon">&#128214;</span> Perpustakaan
-                </a>
-                <a href="#" class="menu-item active">
-                    <span class="icon">&#9999;&#65039;</span> Ujian
-                </a>
-                <hr class="divider">
-                <a href="#" class="menu-item disabled">
-                    <span class="icon">&#128100;</span> Profil desa
-                </a>
-                <a href="#" class="menu-item disabled">
-                    <span class="icon">&#128226;</span> Pemasaran
-                </a>
-            </nav>
-        </aside>
-
-        <!-- MAIN -->
-        <main class="main">
-            <!-- HERO -->
-            <section class="hero">
-                <img src="wayang2.png" class="wayang-img" alt="Logo Wayang">
-                <div class="hero-text">
-                    <h1>Selamat datang di tes ujian</h1>
-                    <p>Fokus, teliti, dan jangan terburu-buru.</p>
+            <ul class="menu-list">
+                <li>
+                    <a href="/dashboard" class="menu-item">
+                        <i class="fa-solid fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/perpus" class="menu-item">
+                        <i class="fa-solid fa-book-open"></i>
+                        <span>Perpustakaan</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/ujian" class="menu-item active">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                        <span>Ujian</span>
+                    </a>
+                </li>
+                <hr class="divider" />
+                <li>
+                    <a href="/profile" class="menu-item disabled">
+                        <i class="fa-solid fa-user"></i>
+                        <span>Profil User</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="main">
+            <div class="top-bar">
+                <div class="search-container">
+                    <i class="fa-solid fa-search search-icon"></i>
+                    <input type="text" placeholder="Mencari..." />
                 </div>
-                <div class="badge">&#129351;</div>
-            </section>
+                <button class="filter-btn">
+                    <span class="material-icons-outlined">tune</span>
+                </button>
+            </div>
 
-            <!-- VIEW: LIST UJIAN -->
-            <section id="view-list" class="card-panel view">
-                <h2 class="panel-title"><span class="icon">&#9999;&#65039;</span> Ujian</h2>
-
-                <div class="ujian-item" data-jenjang="SD">
-                    <div class="ujian-number">1</div>
-                    <div class="ujian-info">
-                        <h3>Sekolah Dasar (SD)</h3>
-                        <p>Menyiapkan latihan ujian kelas satu sampai enam</p>
-                        <span class="status status-done" data-status="SD">Selesai</span>
+            <main class="content-panel">
+                <section class="hero">
+                    <img
+                        src="wayang2.png"
+                        class="wayang-img"
+                        alt="Logo Wayang"
+                    />
+                    <div class="hero-text">
+                        <h1>Selamat datang di tes ujian</h1>
+                        <p>Fokus, teliti, dan jangan terburu-buru.</p>
                     </div>
-                    <div class="ujian-arrow">&gt;</div>
-                </div>
+                    <div class="badge">&#129351;</div>
+                </section>
 
-                <div class="ujian-item" data-jenjang="SMP">
-                    <div class="ujian-number">2</div>
-                    <div class="ujian-info">
-                        <h3>Sekolah Menengah Pertama (SMP)</h3>
-                        <p>Menyiapkan latihan ujian kelas tujuh sampai sembilan</p>
-                        <span class="status status-pending" data-status="SMP">Belum selesai</span>
+                <!-- VIEW: LIST UJIAN -->
+                <section id="view-list" class="card-panel view">
+                    <h2 class="panel-title">
+                        <span class="icon">&#9999;&#65039;</span> Ujian
+                    </h2>
+
+                    <div class="ujian-item" data-jenjang="SD">
+                        <div class="ujian-number">1</div>
+                        <div class="ujian-info">
+                            <h3>Sekolah Dasar (SD)</h3>
+                            <p>
+                                Menyiapkan latihan ujian kelas satu sampai enam
+                            </p>
+                            <span class="status status-done" data-status="SD"
+                                >Selesai</span
+                            >
+                        </div>
+                        <div class="ujian-arrow">&gt;</div>
                     </div>
-                    <div class="ujian-arrow">&gt;</div>
-                </div>
 
-                <div class="ujian-item" data-jenjang="SMA">
-                    <div class="ujian-number">3</div>
-                    <div class="ujian-info">
-                        <h3>Sekolah Menengah Atas (SMA)</h3>
-                        <p>Menyiapkan latihan ujian kelas sepuluh sampai dua belas</p>
-                        <span class="status status-pending" data-status="SMA">Belum selesai</span>
+                    <div class="ujian-item" data-jenjang="SMP">
+                        <div class="ujian-number">2</div>
+                        <div class="ujian-info">
+                            <h3>Sekolah Menengah Pertama (SMP)</h3>
+                            <p>
+                                Menyiapkan latihan ujian kelas tujuh sampai
+                                sembilan
+                            </p>
+                            <span
+                                class="status status-pending"
+                                data-status="SMP"
+                                >Belum selesai</span
+                            >
+                        </div>
+                        <div class="ujian-arrow">&gt;</div>
                     </div>
-                    <div class="ujian-arrow">&gt;</div>
-                </div>
-            </section>
 
-            <!-- VIEW: PILIH KELAS -->
-            <section id="view-kelas" class="card-panel view hidden">
-                <h2 class="panel-title">
-                    <button class="back-btn" data-target="view-list">&larr;</button>
-                    <span id="kelas-title">Pilih Kelas</span>
-                </h2>
-                <div id="kelas-list" class="kelas-grid"></div>
-            </section>
-
-            <!-- VIEW: UJIAN / SOAL -->
-            <section id="view-ujian" class="card-panel view hidden">
-                <div class="ujian-header">
-                    <button class="back-btn" data-target="view-kelas">&larr;</button>
-                    <h2 id="ujian-title">Ujian</h2>
-                    <div class="timer" id="timer">05:00</div>
-                </div>
-
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progress-fill"></div>
-                </div>
-                <div class="soal-meta">
-                    Soal <span id="soal-nomor">1</span> dari <span id="soal-total">10</span>
-                </div>
-
-                <!--menmapilan suara di soal-->
-                <div class="soal-box">
-                    <img id="soal-image" class="soal-image hidden" src="" alt="Gambar soal">
-                    <p id="soal-pertanyaan" class="soal-text"></p>
-                    <div id="soal-pilihan" class="pilihan-list"></div>
-                    <button id="btn-sound" class="btn btn-secondary btn-sound" type="button" disabled>
-                        <span class="speaker-icon">🔊</span> Dengarkan Gong
-                    </button>
-                </div>
-
-                <div class="ujian-nav">
-                    <button id="btn-prev" class="btn btn-secondary">&larr; Sebelumnya</button>
-                    <button id="btn-next" class="btn btn-primary">Selanjutnya &rarr;</button>
-                    <button id="btn-finish" class="btn btn-finish hidden">Selesai Ujian</button>
-                </div>
-            </section>
-
-            <!-- VIEW: HASIL -->
-            <section id="view-hasil" class="card-panel view hidden">
-                <h2 class="panel-title">&#127942; Hasil Ujian</h2>
-                <div class="hasil-summary">
-                    <div class="hasil-score" id="hasil-score">0</div>
-                    <div class="hasil-label">Skor Kamu</div>
-                </div>
-                <div class="hasil-stats">
-                    <div class="stat-box stat-correct">
-                        <span class="stat-num" id="stat-benar">0</span>
-                        <span class="stat-text">Benar</span>
+                    <div class="ujian-item" data-jenjang="SMA">
+                        <div class="ujian-number">3</div>
+                        <div class="ujian-info">
+                            <h3>Sekolah Menengah Atas (SMA)</h3>
+                            <p>
+                                Menyiapkan latihan ujian kelas sepuluh sampai
+                                dua belas
+                            </p>
+                            <span
+                                class="status status-pending"
+                                data-status="SMA"
+                                >Belum selesai</span
+                            >
+                        </div>
+                        <div class="ujian-arrow">&gt;</div>
                     </div>
-                    <div class="stat-box stat-wrong">
-                        <span class="stat-num" id="stat-salah">0</span>
-                        <span class="stat-text">Salah</span>
+                </section>
+
+                <!-- VIEW: PILIH KELAS -->
+                <section id="view-kelas" class="card-panel view hidden">
+                    <h2 class="panel-title">
+                        <button class="back-btn" data-target="view-list">
+                            &larr;
+                        </button>
+                        <span id="kelas-title">Pilih Kelas</span>
+                    </h2>
+                    <div id="kelas-list" class="kelas-grid"></div>
+                </section>
+
+                <!-- VIEW: UJIAN / SOAL -->
+                <section id="view-ujian" class="card-panel view hidden">
+                    <div class="ujian-header">
+                        <button class="back-btn" data-target="view-kelas">
+                            &larr;
+                        </button>
+                        <h2 id="ujian-title">Ujian</h2>
+                        <div class="timer" id="timer">05:00</div>
                     </div>
-                </div>
 
-                <h3 class="riwayat-title">Riwayat Jawaban</h3>
-                <div id="riwayat-list" class="riwayat-list"></div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                    <div class="soal-meta">
+                        Soal <span id="soal-nomor">1</span> dari
+                        <span id="soal-total">10</span>
+                    </div>
 
-                <div class="ujian-nav">
-                    <button id="btn-kembali" class="btn btn-primary">Kembali ke Daftar Ujian</button>
-                </div>
-            </section>
-        </main>
-    </div>
+                    <!--menmapilan suara di soal-->
+                    <div class="soal-box">
+                        <img
+                            id="soal-image"
+                            class="soal-image hidden"
+                            src=""
+                            alt="Gambar soal"
+                        />
+                        <p id="soal-pertanyaan" class="soal-text"></p>
+                        <div id="soal-pilihan" class="pilihan-list"></div>
+                        <button
+                            id="btn-sound"
+                            class="btn btn-secondary btn-sound"
+                            type="button"
+                            disabled
+                        >
+                            <span class="speaker-icon">🔊</span> Dengarkan Gong
+                        </button>
+                    </div>
 
-    <script src="script.js"></script>
-</body>
+                    <div class="ujian-nav">
+                        <button id="btn-prev" class="btn btn-secondary">
+                            &larr; Sebelumnya
+                        </button>
+                        <button id="btn-next" class="btn btn-primary">
+                            Selanjutnya &rarr;
+                        </button>
+                        <button id="btn-finish" class="btn btn-finish hidden">
+                            Selesai Ujian
+                        </button>
+                    </div>
+                </section>
 
+                <!-- VIEW: HASIL -->
+                <section id="view-hasil" class="card-panel view hidden">
+                    <h2 class="panel-title">&#127942; Hasil Ujian</h2>
+                    <div class="hasil-summary">
+                        <div class="hasil-score" id="hasil-score">0</div>
+                        <div class="hasil-label">Skor Kamu</div>
+                    </div>
+                    <div class="hasil-stats">
+                        <div class="stat-box stat-correct">
+                            <span class="stat-num" id="stat-benar">0</span>
+                            <span class="stat-text">Benar</span>
+                        </div>
+                        <div class="stat-box stat-wrong">
+                            <span class="stat-num" id="stat-salah">0</span>
+                            <span class="stat-text">Salah</span>
+                        </div>
+                    </div>
+
+                    <h3 class="riwayat-title">Riwayat Jawaban</h3>
+                    <div id="riwayat-list" class="riwayat-list"></div>
+
+                    <div class="ujian-nav">
+                        <button id="btn-kembali" class="btn btn-primary">
+                            Kembali ke Daftar Ujian
+                        </button>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <script src="script.js"></script>
+        <script>
+            function toggleSidebar() {
+                const sidebar = document.getElementById("sidebar");
+                sidebar.classList.toggle("closed");
+            }
+        </script>
+    </body>
 </html>
