@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Login</title>
-    <link rel="stylesheet" href="../css/login.css" />
+    <title>Daftar Akun</title>
+    <link rel="stylesheet" href="css/sign.css" />
   </head>
   <body>
     <main class="page-bg">
       <div class="card">
         <aside class="hero">
-          <img src="src/wayang_klitik.jpg" alt="Pertunjukan wayang" />
+          <img src="/src/wayang_klitik.jpg" alt="Pertunjukan wayang" />
           <div class="hero-overlay">
             <p class="muted">Selamat Datang</p>
             <h2>Akses akun Anda dengan nuansa budaya yang elegan.</h2>
@@ -20,18 +20,13 @@
 
         <section class="panel">
           <header class="panel-header">
-            <nav class="nav">
-              <a href="#">Home</a>
-              <a href="#">Tentang Kami</a>
-              <a href="#">Kontak</a>
-            </nav>
             <div class="logo-mark" aria-hidden="true"></div>
           </header>
 
           <div class="panel-body">
             <div class="tabs">
-              <a href="login.html" class="tab">LOGIN</a>
-              <a href="sign.html" class="tab active" aria-current="page">SIGN IN</a>
+              <a href="/login" class="tab">LOGIN</a>
+              <a href="/register" class="tab active" aria-current="page">SIGN IN</a>
             </div>
 
             <div class="intro">
@@ -40,7 +35,7 @@
             </div>
 
             <form id="signForm" novalidate>
-                <div class="field">
+              <div class="field">
                 <label for="name">Nama Lengkap</label>
                 <div class="control" id="nameWrap">
                   <span class="icon">👤</span>
@@ -88,8 +83,10 @@
     <script>
       (function () {
         const form = document.getElementById('signForm');
+        const nameInput = document.getElementById('name');
         const identity = document.getElementById('identity');
         const password = document.getElementById('password');
+        const nameError = document.getElementById('nameError');
         const identityError = document.getElementById('identityError');
         const passwordError = document.getElementById('passwordError');
         const status = document.getElementById('status');
@@ -105,8 +102,10 @@
         }
 
         function clearErrors() {
+          nameError.textContent = '';
           identityError.textContent = '';
           passwordError.textContent = '';
+          document.getElementById('nameWrap').classList.remove('error');
           document.getElementById('identityWrap').classList.remove('error');
           document.getElementById('passwordWrap').classList.remove('error');
           status.textContent = '';
@@ -127,8 +126,15 @@
           e.preventDefault();
           clearErrors();
           let ok = true;
+          const namev = nameInput.value.trim();
           const idv = identity.value.trim();
           const pwd = password.value;
+
+          if (!namev) {
+            nameError.textContent = 'Nama lengkap wajib diisi.';
+            document.getElementById('nameWrap').classList.add('error');
+            ok = false;
+          }
 
           if (!idv) {
             identityError.textContent = 'Email atau nomor telepon wajib diisi.';
@@ -151,7 +157,7 @@
           }
 
           if (!ok) {
-            status.textContent = 'Silakan periksa kembali data login Anda.';
+            status.textContent = 'Silakan periksa kembali data pendaftaran Anda.';
             status.classList.add('status-error');
             return;
           }
@@ -159,13 +165,34 @@
           submitBtn.disabled = true;
           submitBtn.textContent = 'MEMPROSES...';
 
-          setTimeout(function () {
+          // AJAX Fetch menuju backend Express untuk Registrasi
+          fetch('/api/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name: namev, identity: idv, password: pwd })
+          })
+          .then(res => res.json())
+          .then(data => {
             submitBtn.disabled = false;
             submitBtn.textContent = 'DAFTAR';
-            status.textContent = 'Pendaftaran berhasil. Selamat datang, ' + name + '!';
-            status.classList.add('status-success');
-            form.reset();
-          }, 900);
+
+            if (data.success) {
+              status.textContent = data.message + ' Mengalihkan...';
+              status.className = 'status status-success';
+              form.reset();
+              // Otomatis pindah ke halaman login setelah sukses
+              setTimeout(() => { window.location.href = '/login'; }, 1500);
+            } else {
+              status.textContent = data.message;
+              status.className = 'status status-error';
+            }
+          })
+          .catch(() => {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'DAFTAR';
+            status.textContent = 'Terjadi kesalahan koneksi ke server.';
+            status.className = 'status status-error';
+          });
         });
       })();
     </script>

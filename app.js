@@ -18,7 +18,21 @@ app.use(
     }),
 );
 
-app.use(express.static("public"));
+const checkAuth = (req, res, next) => {
+    const publicPages = ['/login', '/register', '/api/login', '/api/register'];
+    
+    if (publicPages.includes(req.path)) {
+        return next();
+    }
+    if (req.session && req.session.userId) {
+        return next();
+    }
+
+    res.redirect("/login");
+};
+
+app.use(checkAuth);
+app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", authRoutes);
 app.use("/", pageRoutes);

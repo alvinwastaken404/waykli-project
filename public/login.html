@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Login</title>
+    <title>Login Masuk</title>
     <link rel="stylesheet" href="css/login.css" />
   </head>
   <body>
@@ -11,27 +11,27 @@
       <div class="card">
         <aside class="hero">
           <img src="resources/wayang_klitik.jpg" alt="Pertunjukan wayang" />
+          <div class="hero-overlay">
+            <p class="muted">Selamat Datang</p>
+            <h2>Akses akun Anda dengan nuansa budaya yang elegan.</h2>
+            <p class="muted-sub">Halaman login modern dengan sentuhan warna hangat dan desain responsif.</p>
+          </div>
         </aside>
 
         <section class="panel">
           <header class="panel-header">
-            <nav class="nav">
-              <a href="#">Home</a>
-              <a href="#">Tentang Kami</a>
-              <a href="#">Kontak</a>
-            </nav>
             <div class="logo-mark" aria-hidden="true"></div>
           </header>
 
           <div class="panel-body">
             <div class="tabs">
-              <a href="login.html" class="tab active" aria-current="page">LOGIN</a>
-              <a href="sign.html" class="tab">SIGN IN</a>
+              <a href="/login" class="tab active" aria-current="page">LOGIN</a>
+              <a href="/register" class="tab">SIGN IN</a>
             </div>
 
             <div class="intro">
-              <h1>Selamat Datang</h1>
-              <p>Masuk ke akun Anda untuk melanjutkan aktivitas dengan aman dan nyaman.</p>
+              <h1>Selamat Datang Kembali</h1>
+              <p>Silakan masuk menggunakan akun yang telah Anda daftarkan.</p>
             </div>
 
             <form id="loginForm" novalidate>
@@ -56,7 +56,7 @@
 
               <div class="row between">
                 <a href="#" class="muted-link">Lupa kata sandi?</a>
-                <button type="submit" class="btn primary" id="submitBtn">LOGIN</button>
+                <button type="submit" class="btn primary" id="submitBtn">MASUK</button>
               </div>
 
               <div id="status" class="status" aria-live="polite"></div>
@@ -125,28 +125,40 @@
             passwordError.textContent = 'Password wajib diisi.';
             document.getElementById('passwordWrap').classList.add('error');
             ok = false;
-          } else if (pwd.length < 6) {
-            passwordError.textContent = 'Password minimal 6 karakter.';
-            document.getElementById('passwordWrap').classList.add('error');
-            ok = false;
           }
 
-          if (!ok) {
-            status.textContent = 'Silakan periksa kembali data login Anda.';
-            status.classList.add('status-error');
-            return;
-          }
+          if (!ok) return;
 
           submitBtn.disabled = true;
           submitBtn.textContent = 'MEMPROSES...';
 
-          setTimeout(function () {
+          // AJAX Fetch menuju backend Express untuk Verifikasi Login
+          fetch('/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ identity: idv, password: pwd })
+          })
+          .then(res => res.json())
+          .then(data => {
             submitBtn.disabled = false;
-            submitBtn.textContent = 'LOGIN';
-            status.textContent = 'Login berhasil. Selamat datang, ' + idv + '!';
-            status.classList.add('status-success');
-            form.reset();
-          }, 900);
+            submitBtn.textContent = 'MASUK';
+
+            if (data.success) {
+              status.textContent = 'Login berhasil! Mengalihkan ke halaman utama...';
+              status.className = 'status status-success';
+              // Dialihkan ke rute utama yang diamankan oleh middleware guard Anda
+              setTimeout(() => { window.location.href = '/dashboard'; }, 1000);
+            } else {
+              status.textContent = data.message;
+              status.className = 'status status-error';
+            }
+          })
+          .catch(() => {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'MASUK';
+            status.textContent = 'Terjadi kesalahan koneksi ke server.';
+            status.className = 'status status-error';
+          });
         });
       })();
     </script>
