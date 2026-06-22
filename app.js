@@ -31,12 +31,12 @@ const checkAuth = (req, res, next) => {
     res.redirect("/login");
 };
 
+app.use(express.static('public'));
 app.use(checkAuth);
-app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", authRoutes);
 app.use("/", pageRoutes);
 
 app.listen(3000, () => {
-    console.log("Server running on port 3000");
+    console.log("Server running on http://localhost:3000");
 });

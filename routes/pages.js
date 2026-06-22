@@ -2,7 +2,6 @@ const express = require("express");
 const path = require("path");
 const router = express.Router();
 
-// Middleware: check if user is authenticated
 function requireAuth(req, res, next) {
     if (!req.session.user) {
         return res.redirect("/login");

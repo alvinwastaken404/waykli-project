@@ -1,155 +1,214 @@
 <!doctype html>
 <html lang="id">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Login Masuk</title>
-    <link rel="stylesheet" href="css/login.css" />
-  </head>
-  <body>
-    <main class="page-bg">
-      <div class="card">
-        <aside class="hero">
-          <img src="resources/wayang_klitik.jpg" alt="Pertunjukan wayang" />
-          <div class="hero-overlay">
-            <p class="muted">Selamat Datang</p>
-            <h2>Akses akun Anda dengan nuansa budaya yang elegan.</h2>
-            <p class="muted-sub">Halaman login modern dengan sentuhan warna hangat dan desain responsif.</p>
-          </div>
-        </aside>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>Waykli - Login</title>
+        <link rel="stylesheet" href="css/login.css" />
+    </head>
+    <body>
+        <main class="page-bg">
+            <div class="card">
+                <aside class="hero">
+                    <img
+                        src="/resources/wayang_klitik.jpg"
+                        alt="Pertunjukan wayang"
+                    />
+                    <div class="hero-overlay">
+                        <p class="muted">Selamat Datang</p>
+                        <h2>
+                            Akses akun Anda dengan nuansa budaya yang elegan.
+                        </h2>
+                        <p class="muted-sub">
+                            Halaman login modern dengan sentuhan warna hangat
+                            dan desain responsif.
+                        </p>
+                    </div>
+                </aside>
 
-        <section class="panel">
-          <header class="panel-header">
-            <div class="logo-mark" aria-hidden="true"></div>
-          </header>
+                <section class="panel">
+                    <header class="panel-header">
+                        <div class="logo-mark" aria-hidden="true"></div>
+                    </header>
 
-          <div class="panel-body">
-            <div class="tabs">
-              <a href="/login" class="tab active" aria-current="page">LOGIN</a>
-              <a href="/register" class="tab">SIGN IN</a>
+                    <div class="panel-body">
+                        <div class="tabs">
+                            <a
+                                href="/login"
+                                class="tab active"
+                                aria-current="page"
+                                >LOGIN</a
+                            >
+                            <a href="/register" class="tab">SIGN IN</a>
+                        </div>
+
+                        <div class="intro">
+                            <h1>Selamat Datang Kembali</h1>
+                            <p>
+                                Silakan masuk menggunakan akun yang telah Anda
+                                daftarkan.
+                            </p>
+                        </div>
+
+                        <form id="loginForm" novalidate>
+                            <div class="field">
+                                <label for="identity"
+                                    >Email / No. Telepon</label
+                                >
+                                <div class="control" id="identityWrap">
+                                    <span class="icon">👤</span>
+                                    <input
+                                        id="identity"
+                                        name="identity"
+                                        type="text"
+                                        placeholder="Masukan Email/No.Telp"
+                                    />
+                                </div>
+                                <p class="error" id="identityError"></p>
+                            </div>
+
+                            <div class="field">
+                                <label for="password">Password</label>
+                                <div class="control" id="passwordWrap">
+                                    <span class="icon">🔒</span>
+                                    <input
+                                        id="password"
+                                        name="password"
+                                        type="password"
+                                        placeholder="Password"
+                                    />
+                                    <button
+                                        type="button"
+                                        id="togglePass"
+                                        class="toggle"
+                                    >
+                                        Lihat
+                                    </button>
+                                </div>
+                                <p class="error" id="passwordError"></p>
+                            </div>
+
+                            <div class="row between">
+                                <a href="#" class="muted-link"
+                                    >Lupa kata sandi?</a
+                                >
+                                <button
+                                    type="submit"
+                                    class="btn primary"
+                                    id="submitBtn"
+                                >
+                                    MASUK
+                                </button>
+                            </div>
+
+                            <div
+                                id="status"
+                                class="status"
+                                aria-live="polite"
+                            ></div>
+                        </form>
+                    </div>
+                </section>
             </div>
+        </main>
 
-            <div class="intro">
-              <h1>Selamat Datang Kembali</h1>
-              <p>Silakan masuk menggunakan akun yang telah Anda daftarkan.</p>
-            </div>
+        <script>
+            (function () {
+                const form = document.getElementById("loginForm");
+                const identity = document.getElementById("identity");
+                const password = document.getElementById("password");
+                const identityError = document.getElementById("identityError");
+                const passwordError = document.getElementById("passwordError");
+                const status = document.getElementById("status");
+                const submitBtn = document.getElementById("submitBtn");
+                const toggle = document.getElementById("togglePass");
 
-            <form id="loginForm" novalidate>
-              <div class="field">
-                <label for="identity">Email / No. Telepon</label>
-                <div class="control" id="identityWrap">
-                  <span class="icon">👤</span>
-                  <input id="identity" name="identity" type="text" placeholder="Masukan Email/No.Telp" />
-                </div>
-                <p class="error" id="identityError"></p>
-              </div>
+                function clearErrors() {
+                    identityError.textContent = "";
+                    passwordError.textContent = "";
+                    document
+                        .getElementById("identityWrap")
+                        .classList.remove("error");
+                    document
+                        .getElementById("passwordWrap")
+                        .classList.remove("error");
+                    status.textContent = "";
+                    status.className = "status";
+                }
 
-              <div class="field">
-                <label for="password">Password</label>
-                <div class="control" id="passwordWrap">
-                  <span class="icon">🔒</span>
-                  <input id="password" name="password" type="password" placeholder="Password" />
-                  <button type="button" id="togglePass" class="toggle">Lihat</button>
-                </div>
-                <p class="error" id="passwordError"></p>
-              </div>
+                toggle.addEventListener("click", function () {
+                    if (password.type === "password") {
+                        password.type = "text";
+                        toggle.textContent = "Sembunyikan";
+                    } else {
+                        password.type = "password";
+                        toggle.textContent = "Lihat";
+                    }
+                });
 
-              <div class="row between">
-                <a href="#" class="muted-link">Lupa kata sandi?</a>
-                <button type="submit" class="btn primary" id="submitBtn">MASUK</button>
-              </div>
+                form.addEventListener("submit", async function (e) {
+                    e.preventDefault();
+                    clearErrors();
 
-              <div id="status" class="status" aria-live="polite"></div>
-            </form>
-          </div>
-        </section>
-      </div>
-    </main>
+                    const idv = identity.value.trim();
+                    const pwd = password.value;
 
-    <script>
-      (function () {
-        const form = document.getElementById('loginForm');
-        const identity = document.getElementById('identity');
-        const password = document.getElementById('password');
-        const identityError = document.getElementById('identityError');
-        const passwordError = document.getElementById('passwordError');
-        const status = document.getElementById('status');
-        const submitBtn = document.getElementById('submitBtn');
-        const toggle = document.getElementById('togglePass');
+                    // Client-side validation
+                    let ok = true;
+                    if (!idv) {
+                        identityError.textContent =
+                            "Email atau nomor telepon wajib diisi.";
+                        document
+                            .getElementById("identityWrap")
+                            .classList.add("error");
+                        ok = false;
+                    }
+                    if (!pwd) {
+                        passwordError.textContent = "Password wajib diisi.";
+                        document
+                            .getElementById("passwordWrap")
+                            .classList.add("error");
+                        ok = false;
+                    }
 
-        function clearErrors() {
-          identityError.textContent = '';
-          passwordError.textContent = '';
-          document.getElementById('identityWrap').classList.remove('error');
-          document.getElementById('passwordWrap').classList.remove('error');
-          status.textContent = '';
-          status.className = 'status';
-        }
+                    if (!ok) return;
 
-        toggle.addEventListener('click', function () {
-          if (password.type === 'password') {
-            password.type = 'text';
-            toggle.textContent = 'Sembunyikan';
-          } else {
-            password.type = 'password';
-            toggle.textContent = 'Lihat';
-          }
-        });
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = "MEMPROSES...";
 
-        form.addEventListener('submit', async function (e) {
-          e.preventDefault();
-          clearErrors();
-          
-          const idv = identity.value.trim();
-          const pwd = password.value;
+                    // AJAX Fetch menuju backend Express untuk Verifikasi Login
+                    fetch("/api/login", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ identity: idv, password: pwd }),
+                    })
+                        .then((res) => res.json())
+                        .then((data) => {
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = "MASUK";
 
-          // Client-side validation
-          let ok = true;
-          if (!idv) {
-            identityError.textContent = 'Email atau nomor telepon wajib diisi.';
-            document.getElementById('identityWrap').classList.add('error');
-            ok = false;
-          }
-          if (!pwd) {
-            passwordError.textContent = 'Password wajib diisi.';
-            document.getElementById('passwordWrap').classList.add('error');
-            ok = false;
-          }
-
-          if (!ok) return;
-
-          submitBtn.disabled = true;
-          submitBtn.textContent = 'MEMPROSES...';
-
-          // AJAX Fetch menuju backend Express untuk Verifikasi Login
-          fetch('/api/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ identity: idv, password: pwd })
-          })
-          .then(res => res.json())
-          .then(data => {
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'MASUK';
-
-            if (data.success) {
-              status.textContent = 'Login berhasil! Mengalihkan ke halaman utama...';
-              status.className = 'status status-success';
-              // Dialihkan ke rute utama yang diamankan oleh middleware guard Anda
-              setTimeout(() => { window.location.href = '/dashboard'; }, 1000);
-            } else {
-              status.textContent = data.message;
-              status.className = 'status status-error';
-            }
-          })
-          .catch(() => {
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'MASUK';
-            status.textContent = 'Terjadi kesalahan koneksi ke server.';
-            status.className = 'status status-error';
-          });
-        });
-      })();
-    </script>
-  </body>
+                            if (data.success) {
+                                status.textContent =
+                                    "Login berhasil! Mengalihkan ke halaman utama...";
+                                status.className = "status status-success";
+                                // Dialihkan ke rute utama yang diamankan oleh middleware guard Anda
+                                setTimeout(() => {
+                                    window.location.href = "/dashboard";
+                                }, 1000);
+                            } else {
+                                status.textContent = data.message;
+                                status.className = "status status-error";
+                            }
+                        })
+                        .catch(() => {
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = "MASUK";
+                            status.textContent =
+                                "Terjadi kesalahan koneksi ke server.";
+                            status.className = "status status-error";
+                        });
+                });
+            })();
+        </script>
+    </body>
 </html>
