@@ -95,8 +95,7 @@
         item.addEventListener("click", (e) => {
             const page = item.dataset.page;
             if (page === "home") {
-                e.preventDefault();
-                navigateTo(page);
+                window.location.href = "/dashboard";
             }
 
             // Ensure mobile sidebar closes when any nav item is tapped
@@ -108,7 +107,7 @@
     });
 
     const CARD_PAGES = {
-        "Buku Belajar": "perpustakaan",
+        "Buku Belajar": "/perpus",
         Video: "https://youtube.com/@sandhikagalihwpu?si=4-Xk1ajBf-gT-zdK",
         Lagu: "https://youtu.be/QQ1QdT9KYlQ?si=SJMLtpNDD9zFi8Oo",
         Game: "/game",

@@ -124,7 +124,7 @@ body {
     margin-left: 20px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 50px;
 }
 
 /* --- TOP BAR (SEARCH & FILTER) --- */
@@ -182,6 +182,7 @@ body {
     border-radius: 15px;
     padding: 25px;
     flex: 1;
+    margin-top: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
@@ -277,12 +278,6 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-/* Khusus untuk teks yang memiliki underline di gambar asli */
-.card-bottom.underlined {
-    text-decoration: underline;
-    color: #5d4037;
 }
 
 /* Responsif untuk Layar Handphone */

@@ -4,6 +4,7 @@ const path = require("path");
 
 const authRoutes = require("./routes/auth");
 const pageRoutes = require("./routes/pages");
+const apiRoutes = require("./routes/api");
 
 const app = express();
 
@@ -19,7 +20,7 @@ app.use(
 );
 
 const checkAuth = (req, res, next) => {
-    const publicPages = ['/login', '/register', '/api/login', '/api/register'];
+    const publicPages = ['/login', '/register', '/api/login', '/api/register', '/logout'];
     
     if (publicPages.includes(req.path)) {
         return next();
@@ -36,6 +37,7 @@ app.use(checkAuth);
 
 app.use("/", authRoutes);
 app.use("/", pageRoutes);
+app.use("/api", apiRoutes);
 
 app.listen(3000, () => {
     console.log("Server running on http://localhost:3000");

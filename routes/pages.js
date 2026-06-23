@@ -14,8 +14,6 @@ router.get("/", (req, res) => res.redirect("/login"));
 router.get("/register", (req, res) =>
     res.sendFile(path.join(__dirname, "..", "public", "register.html")),
 );
-
-// Protected routes - require authentication
 router.get("/dashboard", requireAuth, (req, res) =>
     res.sendFile(
         path.join(__dirname, "..", "public", "member", "dashboard.html"),
@@ -34,6 +32,17 @@ router.get("/profile", requireAuth, (req, res) =>
 );
 router.get("/ujian", requireAuth, (req, res) =>
     res.sendFile(path.join(__dirname, "..", "public", "member", "ujian.html")),
+);
+router.get("/pdf-viewer", requireAuth, (req, res) =>
+    res.sendFile(
+        path.join(
+            __dirname,
+            "..",
+            "public",
+            "member",
+            "pdf-viewer.html",
+        ),
+    ),
 );
 
 module.exports = router;

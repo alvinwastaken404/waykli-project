@@ -1,91 +1,145 @@
-// Memastikan library Lucide Icons ter-render dengan benar
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async () => {
     lucide.createIcons();
+
+    try {
+        const res = await fetch("/api/profile");
+
+        if (!res.ok) {
+            throw new Error("Gagal mengambil profil");
+        }
+
+        const data = await res.json();
+
+        if (!data.success || !data.user) {
+            window.location.href = "/login";
+            return;
+        }
+
+        const user = data.user;
+
+        const username =
+            user.username ||
+            user.name.toLowerCase().replace(/\s+/g, "");
+
+        const joinDate = user.createdAt
+            ? new Date(user.createdAt).toLocaleDateString("id-ID", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+              })
+            : "-";
+
+        // ===== TAMPILKAN DATA =====
+
+        document.getElementById("displayNama").textContent =
+            user.name || "Unknown User";
+
+        document.getElementById("displayUsername").textContent =
+            "@" + username;
+
+        document.getElementById("displayEmail").textContent =
+            user.identity || user.email || "-";
+
+        document.getElementById("inputNama").value =
+            user.name || "";
+
+        document.getElementById("inputEmail").value =
+            user.identity || user.email || "";
+
+        document.getElementById("inputUsernameCard").value =
+            user.name || "";
+
+        document.getElementById("inputUsernameReal").value =
+            username;
+
+        document.getElementById("joinDate").textContent =
+            joinDate;
+
+        document.getElementById("joinDateInput").value =
+            joinDate;
+
+        document.getElementById("userStatus").textContent =
+            "Member";
+
+        // ===== AKTIFKAN FORM =====
+
+        document.getElementById("btnCamera").disabled = false;
+        document.getElementById("btnCamera").classList.remove(
+            "cursor-not-allowed",
+            "opacity-50",
+        );
+
+        document.getElementById("btnBatal").disabled = false;
+        document.getElementById("btnBatal").classList.remove(
+            "cursor-not-allowed",
+        );
+
+        document
+            .querySelector('button[type="submit"]')
+            .removeAttribute("disabled");
+
+        document
+            .querySelector('button[type="submit"]')
+            .classList.remove(
+                "opacity-50",
+                "cursor-not-allowed",
+            );
+
+        [
+            "inputNama",
+            "inputEmail",
+            "inputUsernameReal",
+            "currentPassword",
+            "newPassword",
+        ].forEach((id) => {
+            document.getElementById(id).disabled = false;
+            document
+                .getElementById(id)
+                .classList.remove(
+                    "cursor-not-allowed",
+                );
+        });
+    } catch (err) {
+        console.error(err);
+    }
 });
 
-// Selector Elemen Avatar
+// ================= AVATAR =================
+
 const avatarInput = document.getElementById("avatarInput");
 const avatarImage = document.getElementById("avatarImage");
 const btnCamera = document.getElementById("btnCamera");
 
-// Trigger klik input file saat tombol kamera ditekan
-btnCamera.addEventListener("click", function () {
-    if (btnCamera.disabled) {
-        alert("Silakan login terlebih dahulu untuk mengubah avatar.");
-        return;
-    }
+btnCamera?.addEventListener("click", () => {
     avatarInput.click();
 });
 
-// Logika Pratinjau (Preview) Foto Profil setelah dipilih
-avatarInput.addEventListener("change", function () {
-    if (btnCamera.disabled) {
-        return;
-    }
+avatarInput?.addEventListener("change", function () {
     const file = this.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            avatarImage.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-    }
+
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+        avatarImage.src = e.target.result;
+    };
+
+    reader.readAsDataURL(file);
 });
 
-// Selector Elemen Form Profil
+// ================= FORM =================
+
 const profileForm = document.getElementById("profileForm");
+
+profileForm?.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    alert("Fitur update profile belum dihubungkan ke backend.");
+});
+
 const btnBatal = document.getElementById("btnBatal");
 
-function isGuestProfileMode() {
-    const submitButton = profileForm.querySelector('button[type="submit"]');
-    return submitButton ? submitButton.disabled : false;
-}
-
-// Logika Submit Form (Simpan Perubahan Data)
-profileForm.addEventListener("submit", function (event) {
-    if (isGuestProfileMode()) {
-        event.preventDefault();
-        alert("Silakan login terlebih dahulu untuk mengubah profil.");
-        return;
-    }
-    event.preventDefault(); // Mencegah muat ulang halaman web
-
-    // Ambil semua value input terbaru
-    const namaBaru = document.getElementById("inputNama").value;
-    const emailBaru = document.getElementById("inputEmail").value;
-    const usernameBaru = document.getElementById("inputUsernameReal").value;
-    const passSaatIni = document.getElementById("currentPassword").value;
-    const passBaru = document.getElementById("newPassword").value;
-
-    // Validasi dasar jika user ingin mengganti password
-    if (passBaru && !passSaatIni) {
-        alert(
-            "Harap masukkan password saat ini untuk melakukan perubahan password baru!",
-        );
-        return;
-    }
-
-    // Perbarui teks UI pada kartu profil kiri secara realtime
-    document.getElementById("displayNama").innerText = namaBaru;
-    document.getElementById("displayUsername").innerText =
-        "@" + usernameBaru.replace("@", "");
-    document.getElementById("displayEmail").innerText = emailBaru;
-    document.getElementById("inputUsernameCard").value = namaBaru;
-
-    alert("Perubahan profil Anda berhasil disimpan!");
-
-    // Kosongkan kembali kolom input password demi keamanan
-    document.getElementById("currentPassword").value = "";
-    document.getElementById("newPassword").value = "";
-});
-
-// Logika Tombol Batal
-btnBatal.addEventListener("click", function () {
-    if (btnBatal.disabled) {
-        alert("Silakan login terlebih dahulu untuk membatalkan perubahan.");
-        return;
-    }
-    if (confirm("Apakah Anda yakin ingin membatalkan semua perubahan data?")) {
-        profileForm.reset();
-    }
+btnBatal?.addEventListener("click", () => {
+    location.reload();
 });
