@@ -1674,10 +1674,40 @@ function showView(name) {
 
 // ====== SIDEBAR TOGGLE ======
 const sidebar = document.querySelector(".sidebar");
+const sidebarOverlay = document.getElementById("sidebarOverlay");
+const hamburgerBtn = document.getElementById("hamburgerBtn");
+let isMobile = window.innerWidth <= 640;
+
+window.addEventListener("resize", () => {
+    isMobile = window.innerWidth <= 640;
+});
 
 function toggleSidebar() {
     if (!sidebar) return;
-    sidebar.classList.toggle("closed");
+
+    if (isMobile) {
+        sidebar.classList.toggle("mobile-open");
+        if (sidebarOverlay) {
+            sidebarOverlay.classList.toggle("visible");
+        }
+    } else {
+        sidebar.classList.toggle("collapsed");
+        document.body.classList.toggle(
+            "sidebar-collapsed",
+            sidebar.classList.contains("collapsed"),
+        );
+    }
+}
+
+if (hamburgerBtn) {
+    hamburgerBtn.addEventListener("click", toggleSidebar);
+}
+
+if (sidebarOverlay) {
+    sidebarOverlay.addEventListener("click", () => {
+        sidebar.classList.remove("mobile-open");
+        sidebarOverlay.classList.remove("visible");
+    });
 }
 
 window.toggleSidebar = toggleSidebar;
