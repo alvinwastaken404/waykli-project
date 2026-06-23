@@ -110,7 +110,7 @@
     const CARD_PAGES = {
         "Buku Belajar": "perpustakaan",
         Video: "https://youtube.com/@sandhikagalihwpu?si=4-Xk1ajBf-gT-zdK",
-        Lagu: null,
+        Lagu: "https://youtu.be/QQ1QdT9KYlQ?si=SJMLtpNDD9zFi8Oo",
         Game: "/game",
     };
 
@@ -140,7 +140,6 @@
             }
         });
 
-        // Ripple effect on click
         card.addEventListener("pointerdown", (e) => {
             const ripple = document.createElement("span");
             const rect = card.getBoundingClientRect();
@@ -162,7 +161,6 @@
         });
     });
 
-    // Inject ripple keyframe
     const styleSheet = document.createElement("style");
     styleSheet.textContent = `
     @keyframes rippleAnim {
@@ -259,7 +257,6 @@
 
     animateProgressBars();
 
-    // Staggered card entrance
     menuCards.forEach((card, i) => {
         card.style.opacity = "0";
         card.style.transform = "translateY(20px)";
