@@ -7,6 +7,7 @@ const pageRoutes = require("./routes/pages");
 const apiRoutes = require("./routes/api");
 
 const app = express();
+const PORT = 3000;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -39,4 +40,7 @@ app.use("/", authRoutes);
 app.use("/", pageRoutes);
 app.use("/api", apiRoutes);
 
+app.listen(PORT, () => {
+    console.log(`Server berjalan di http://localhost:${PORT}`);
+});
 module.exports = app;
