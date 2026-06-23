@@ -1,91 +1,107 @@
-// Memastikan library Lucide Icons ter-render dengan benar
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
     lucide.createIcons();
+
+    try {
+        const res = await fetch("/api/profile");
+        const data = await res.json();
+
+        if (!data.success) {
+            window.location.href = "/login";
+            return;
+        }
+
+        const user = data.user;
+
+        const username = user.name
+            .toLowerCase()
+            .replace(/\s+/g, "");
+
+        const joinDate = new Date(user.createdAt).toLocaleDateString(
+            "id-ID",
+            {
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+            },
+        );
+
+        document.getElementById("displayNama").textContent = user.name;
+        document.getElementById("displayUsername").textContent =
+            "@" + username;
+        document.getElementById("displayEmail").textContent =
+            user.identity;
+
+        document.getElementById("inputNama").value = user.name;
+        document.getElementById("inputEmail").value = user.identity;
+
+        document.getElementById("inputUsernameCard").value = user.name;
+        document.getElementById("inputUsernameReal").value = username;
+
+        document.getElementById("joinDate").textContent = joinDate;
+        document.getElementById("joinDateInput").value = joinDate;
+
+        document.getElementById("userStatus").textContent = "Member";
+
+    } catch (err) {
+        console.error(err);
+        window.location.href = "/login";
+    }
 });
 
-// Selector Elemen Avatar
+// avatar
+
 const avatarInput = document.getElementById("avatarInput");
 const avatarImage = document.getElementById("avatarImage");
 const btnCamera = document.getElementById("btnCamera");
 
-// Trigger klik input file saat tombol kamera ditekan
 btnCamera.addEventListener("click", function () {
-    if (btnCamera.disabled) {
-        alert("Silakan login terlebih dahulu untuk mengubah avatar.");
-        return;
-    }
+    alert("Fitur avatar bisa diaktifkan setelah login & backend storage.");
     avatarInput.click();
 });
 
-// Logika Pratinjau (Preview) Foto Profil setelah dipilih
 avatarInput.addEventListener("change", function () {
-    if (btnCamera.disabled) {
-        return;
-    }
     const file = this.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            avatarImage.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-    }
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        avatarImage.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
 });
 
-// Selector Elemen Form Profil
+// profile
+
 const profileForm = document.getElementById("profileForm");
 const btnBatal = document.getElementById("btnBatal");
 
-function isGuestProfileMode() {
-    const submitButton = profileForm.querySelector('button[type="submit"]');
-    return submitButton ? submitButton.disabled : false;
+function isGuest() {
+    return !document.getElementById("displayNama").textContent ||
+        document.getElementById("displayNama").textContent === "Unknown User";
 }
 
-// Logika Submit Form (Simpan Perubahan Data)
 profileForm.addEventListener("submit", function (event) {
-    if (isGuestProfileMode()) {
-        event.preventDefault();
-        alert("Silakan login terlebih dahulu untuk mengubah profil.");
+    event.preventDefault();
+
+    if (isGuest()) {
+        alert("Silakan login terlebih dahulu.");
         return;
     }
-    event.preventDefault(); // Mencegah muat ulang halaman web
 
-    // Ambil semua value input terbaru
     const namaBaru = document.getElementById("inputNama").value;
     const emailBaru = document.getElementById("inputEmail").value;
-    const usernameBaru = document.getElementById("inputUsernameReal").value;
-    const passSaatIni = document.getElementById("currentPassword").value;
-    const passBaru = document.getElementById("newPassword").value;
 
-    // Validasi dasar jika user ingin mengganti password
-    if (passBaru && !passSaatIni) {
-        alert(
-            "Harap masukkan password saat ini untuk melakukan perubahan password baru!",
-        );
-        return;
-    }
+    document.getElementById("displayNama").textContent = namaBaru;
+    document.getElementById("displayEmail").textContent = emailBaru;
 
-    // Perbarui teks UI pada kartu profil kiri secara realtime
-    document.getElementById("displayNama").innerText = namaBaru;
-    document.getElementById("displayUsername").innerText =
-        "@" + usernameBaru.replace("@", "");
-    document.getElementById("displayEmail").innerText = emailBaru;
-    document.getElementById("inputUsernameCard").value = namaBaru;
-
-    alert("Perubahan profil Anda berhasil disimpan!");
-
-    // Kosongkan kembali kolom input password demi keamanan
-    document.getElementById("currentPassword").value = "";
-    document.getElementById("newPassword").value = "";
+    alert("Perubahan berhasil disimpan (frontend only).");
 });
 
-// Logika Tombol Batal
 btnBatal.addEventListener("click", function () {
-    if (btnBatal.disabled) {
-        alert("Silakan login terlebih dahulu untuk membatalkan perubahan.");
+    if (isGuest()) {
+        alert("Silakan login terlebih dahulu.");
         return;
     }
-    if (confirm("Apakah Anda yakin ingin membatalkan semua perubahan data?")) {
-        profileForm.reset();
-    }
+
+    profileForm.reset();
 });

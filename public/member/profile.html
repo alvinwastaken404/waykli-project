@@ -65,7 +65,7 @@
         <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
         <main class="main-content">
-            <div class="page-container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <div class="page-container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10"></div>
             <div class="mb-8">
                 <h1 class="text-3xl font-bold text-[#4a3728]">
                     Pengaturan Akun
@@ -119,7 +119,7 @@
                     <div
                         class="mt-2.5 px-3 py-1 bg-[#ebdcc5] text-[#4a3728] border border-[#d4c3ab] text-xs font-semibold rounded-full"
                     >
-                        Status: Guest
+                        Status: <span id="userStatus">User</span>
                     </div>
                     <p class="text-xs text-[#8c7662] mt-2">
                         Akun tamu tidak memiliki akses edit. Silakan masuk
@@ -151,7 +151,7 @@
                             </div>
                             <div>
                                 <p class="text-xs text-[#8c7662]">Join sejak</p>
-                                <p class="font-medium">Belum login</p>
+                                <p id="joinDate" class="font-medium">-</p>
                             </div>
                         </div>
                     </div>
@@ -216,7 +216,8 @@
                                         >
                                         <input
                                             type="text"
-                                            value="Belum login"
+                                            id="joinDateInput"
+                                            value="-"
                                             disabled
                                             class="w-full px-4 py-2 bg-[#f4eee5] border border-[#e6dcce] rounded-xl text-[#8c7662] cursor-not-allowed text-sm"
                                         />

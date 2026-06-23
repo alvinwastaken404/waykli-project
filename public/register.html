@@ -76,103 +76,116 @@
     </main>
 
     <script>
-      (function () {
-        const form = document.getElementById('signForm');
-        const nameInput = document.getElementById('name');
-        const identity = document.getElementById('identity');
-        const password = document.getElementById('password');
-        const nameError = document.getElementById('nameError');
-        const identityError = document.getElementById('identityError');
-        const passwordError = document.getElementById('passwordError');
-        const status = document.getElementById('status');
-        const submitBtn = document.getElementById('submitBtn');
-        const toggle = document.getElementById('togglePass');
+    (function () {
+      const form = document.getElementById('signForm');
+      const nameInput = document.getElementById('name');
+      const identity = document.getElementById('identity');
+      const password = document.getElementById('password');
 
-        function clearErrors() {
-          nameError.textContent = '';
-          identityError.textContent = '';
-          passwordError.textContent = '';
-          document.getElementById('nameWrap').classList.remove('error');
-          document.getElementById('identityWrap').classList.remove('error');
-          document.getElementById('passwordWrap').classList.remove('error');
-          status.textContent = '';
-          status.className = 'status';
+      const nameError = document.getElementById('nameError');
+      const identityError = document.getElementById('identityError');
+      const passwordError = document.getElementById('passwordError');
+
+      const status = document.getElementById('status');
+      const submitBtn = document.getElementById('submitBtn');
+      const toggle = document.getElementById('togglePass');
+
+      function clearErrors() {
+        nameError.textContent = '';
+        identityError.textContent = '';
+        passwordError.textContent = '';
+
+        document.getElementById('nameWrap').classList.remove('error');
+        document.getElementById('identityWrap').classList.remove('error');
+        document.getElementById('passwordWrap').classList.remove('error');
+
+        status.textContent = '';
+        status.className = 'status';
+      }
+
+      toggle.addEventListener('click', () => {
+        if (password.type === 'password') {
+          password.type = 'text';
+          toggle.textContent = 'Sembunyikan';
+        } else {
+          password.type = 'password';
+          toggle.textContent = 'Lihat';
+        }
+      });
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        clearErrors();
+
+        let valid = true;
+
+        const name = nameInput.value.trim();
+        const identityValue = identity.value.trim();
+        const passwordValue = password.value;
+
+        if (!name) {
+          nameError.textContent = 'Nama lengkap wajib diisi.';
+          document.getElementById('nameWrap').classList.add('error');
+          valid = false;
         }
 
-        toggle.addEventListener('click', function () {
-          if (password.type === 'password') {
-            password.type = 'text';
-            toggle.textContent = 'Sembunyikan';
-          } else {
-            password.type = 'password';
-            toggle.textContent = 'Lihat';
-          }
-        });
+        if (!identityValue) {
+          identityError.textContent = 'Email atau nomor telepon wajib diisi.';
+          document.getElementById('identityWrap').classList.add('error');
+          valid = false;
+        }
 
-        form.addEventListener('submit', async function (e) {
-          e.preventDefault();
-          clearErrors();
-          let ok = true;
-          const namev = nameInput.value.trim();
-          const idv = identity.value.trim();
-          const pwd = password.value;
+        if (!passwordValue || passwordValue.length < 6) {
+          passwordError.textContent = 'Password minimal 6 karakter.';
+          document.getElementById('passwordWrap').classList.add('error');
+          valid = false;
+        }
 
-          if (!namev) {
-            nameError.textContent = 'Nama lengkap wajib diisi.';
-            document.getElementById('nameWrap').classList.add('error');
-            ok = false;
-          }
+        if (!valid) return;
 
-          if (!idv) {
-            identityError.textContent = 'Email atau nomor telepon wajib diisi.';
-            document.getElementById('identityWrap').classList.add('error');
-            ok = false;
-          }
-          if (!pwd || pwd.length < 6) {
-            passwordError.textContent = 'Password minimal 6 karakter.';
-            document.getElementById('passwordWrap').classList.add('error');
-            ok = false;
-          }
-
-          if (!ok) {
-            status.textContent = 'Silakan periksa kembali data pendaftaran Anda.';
-            status.classList.add('status-error');
-            return;
-          }
-
+        try {
           submitBtn.disabled = true;
           submitBtn.textContent = 'MEMPROSES...';
 
-          // AJAX Fetch menuju backend Express untuk Registrasi
-          fetch('/api/register', {
+          const response = await fetch('/api/register', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name: namev, identity: idv, password: pwd })
-          })
-          .then(res => res.json())
-          .then(data => {
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'DAFTAR';
-
-            if (data.success) {
-              status.textContent = data.message + ' Mengalihkan...';
-              status.className = 'status status-success';
-              form.reset();
-              // Otomatis pindah ke halaman login setelah sukses
-              setTimeout(() => { window.location.href = '/login'; }, 1500);
-            } else {
-              status.textContent = data.message;
-              status.className = 'status status-error';
-            }
-          })
-          .catch(() => {
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'DAFTAR';
-            status.textContent = 'Terjadi kesalahan koneksi ke server.';
-            status.className = 'status status-error';
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              name,
+              identity: identityValue,
+              password: passwordValue
+            })
           });
-        });
-      })();
+
+          const data = await response.json();
+
+          if (data.success) {
+            status.textContent = data.message;
+            status.className = 'status status-success';
+
+            form.reset();
+
+            setTimeout(() => {
+              window.location.href = '/login';
+            }, 1500);
+          } else {
+            status.textContent = data.message;
+            status.className = 'status status-error';
+          }
+
+        } catch (err) {
+          status.textContent = 'Terjadi kesalahan koneksi ke server.';
+          status.className = 'status status-error';
+          console.error(err);
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'DAFTAR';
+        }
+      });
+    })();
     </script>
   </body>
 </html>
