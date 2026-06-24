@@ -16,7 +16,7 @@ Proyek ini dibangun menggunakan teknologi modern untuk memastikan performa yang 
 
 * **Backend**: [Node.js](https://nodejs.org/) & [Express.js](https://expressjs.com/)
 * **Keamanan & Enkripsi**: [bcrypt](https://www.npmjs.com/package/bcrypt) (digunakan untuk melakukan *hashing* dan enkripsi password pengguna yang tersimpan di database).
-* **Frontend / Styling**: [Tailwind CSS](https://tailwindcss.com/)
+* **Frontend / Styling**: CSS Native
 * **Template Engine**: EJS (atau sesuaikan dengan kebutuhan)
 * **Database**: MongoDB / MySQL (Dapat dikonfigurasi pada `.env`)
 
